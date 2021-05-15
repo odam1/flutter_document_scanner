@@ -16,10 +16,28 @@ class _MyAppState extends State<MyApp> {
   File scannedDocument;
   Future<PermissionStatus> cameraPermissionFuture;
 
+  ///
+  DocumentScannerController controller;
+
   @override
   void initState() {
-    cameraPermissionFuture = Permission.camera.request();
     super.initState();
+    cameraPermissionFuture = Permission.camera.request();
+    controller = DocumentScannerController();
+    controller.addDocumentScannedListener((scannedImage) {
+      print("document : " + scannedImage.croppedImage);
+
+      setState(() {
+        scannedDocument = scannedImage.getScannedDocumentAsFile();
+        // imageLocation = image;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 
   @override
@@ -31,8 +49,7 @@ class _MyAppState extends State<MyApp> {
           ),
           body: FutureBuilder<PermissionStatus>(
             future: cameraPermissionFuture,
-            builder: (BuildContext context,
-                AsyncSnapshot<PermissionStatus> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<PermissionStatus> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.data.isGranted)
                   return Stack(
@@ -44,18 +61,8 @@ class _MyAppState extends State<MyApp> {
                                 ? Image(
                                     image: FileImage(scannedDocument),
                                   )
-                                : DocumentScanner(
-                                    onDocumentScanned:
-                                        (ScannedImage scannedImage) {
-                                      print("document : " +
-                                          scannedImage.croppedImage);
-
-                                      setState(() {
-                                        scannedDocument = scannedImage
-                                            .getScannedDocumentAsFile();
-                                        // imageLocation = image;
-                                      });
-                                    },
+                                : DocumentScannerCameraView(
+                                    controller: this.controller,
                                   ),
                           ),
                         ],
@@ -65,7 +72,7 @@ class _MyAppState extends State<MyApp> {
                               bottom: 20,
                               left: 0,
                               right: 0,
-                              child: RaisedButton(
+                              child: ElevatedButton(
                                   child: Text("retry"),
                                   onPressed: () {
                                     setState(() {

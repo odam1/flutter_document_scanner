@@ -5,10 +5,10 @@ import 'dart:io';
 class ScannedImage {
   ScannedImage({
     // this.rectangleCoordinates,
-    this.croppedImage,
-    this.width,
-    this.initialImage,
-    this.height,
+    required this.croppedImage,
+    required this.width,
+    required this.initialImage,
+    required this.height,
   });
 
   // RectangleCoordinates rectangleCoordinates;
@@ -17,8 +17,7 @@ class ScannedImage {
   String initialImage;
   int height;
 
-  factory ScannedImage.fromJson(String str) =>
-      ScannedImage.fromMap(json.decode(str));
+  factory ScannedImage.fromJson(String str) => ScannedImage.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
@@ -26,20 +25,18 @@ class ScannedImage {
         // rectangleCoordinates: json["rectangleCoordinates"] == null
         //     ? null
         //     : RectangleCoordinates.fromMap(json["rectangleCoordinates"]),
-        croppedImage:
-            json["croppedImage"] == null ? null : json["croppedImage"],
-        width: json["width"] == null ? null : json["width"],
-        initialImage:
-            json["initialImage"] == null ? null : json["initialImage"],
-        height: json["height"] == null ? null : json["height"],
+        croppedImage: json["croppedImage"],
+        width: json["width"],
+        initialImage: json["initialImage"],
+        height: json["height"],
       );
 
   Map<String, dynamic> toMap() => {
         // "rectangleCoordinates": rectangleCoordinates == null ? null : rectangleCoordinates.toMap(),
-        "croppedImage": croppedImage == null ? null : croppedImage,
-        "width": width == null ? null : width,
-        "initialImage": initialImage == null ? null : initialImage,
-        "height": height == null ? null : height,
+        "croppedImage": croppedImage,
+        "width": width,
+        "initialImage": initialImage,
+        "height": height,
       };
 
   File getScannedDocumentAsFile() => File.fromUri(

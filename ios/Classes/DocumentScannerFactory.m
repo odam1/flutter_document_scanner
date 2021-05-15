@@ -108,7 +108,7 @@
     _trackCameraPosition = NO;
 //    InterpretMapOptions(args[@"options"], self);
     NSString* channelName =
-        [NSString stringWithFormat:@"document_scanner"];
+      [NSString stringWithFormat:@"camera_document_scanner"];
     _channel = [FlutterMethodChannel methodChannelWithName:channelName
                                            binaryMessenger:registrar.messenger];
       

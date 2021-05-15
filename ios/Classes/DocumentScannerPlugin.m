@@ -9,11 +9,11 @@
 }
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
-      methodChannelWithName:@"document_scanner"
+      methodChannelWithName:@"camera_document_scanner"
             binaryMessenger:[registrar messenger]];
   DocumentScannerPlugin* instance = [[DocumentScannerPlugin alloc] init];
      DocumentScannerFactory* factory = [[DocumentScannerFactory alloc] initWithRegistrar:registrar];
-    [registrar registerViewFactory:factory withId:@"document_scanner"];
+    [registrar registerViewFactory:factory withId:@"camera_document_scanner"];
 //  [registrar addMethodCallDelegate:instance channel:channel];
 
 }
